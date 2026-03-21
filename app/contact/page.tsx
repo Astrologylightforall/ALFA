@@ -24,9 +24,22 @@ export default function ContactPage() {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    // Simulate API Call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSuccess(true);
+    try {
+      const resp = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "contact", ...data }),
+      });
+      if (resp.ok) {
+        setIsSuccess(true);
+      } else {
+        const err = await resp.json();
+        alert(err.error || "Submission could not be completed at this moment.");
+      }
+    } catch (error) {
+       console.error("Contact submit error:", error);
+       alert("Error submitting. Please try emailing directly.");
+    }
   };
 
   return (

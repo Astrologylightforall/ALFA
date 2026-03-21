@@ -111,10 +111,11 @@ export const FEATURES_DATA = [
 
 export const CONTACT_INFO = {
   address: "10/17, Ground Floor, Subhash Nagar, New Delhi, Delhi 110027",
-  phone: "099537 46052",
-  phoneFull: "+919953746052",
+  phone: "+91 99996 91464",
+  phoneFull: "+919999691464",
   whatsapp: "09999691464",
   whatsappFull: "+919999691464",
   email: "astrologylightforall@gmail.com",
-  hours: "Monday to Sunday, 10:00 AM – 9:00 PM IST"
+  hours: "Monday to Sunday, 10:00 AM – 9:00 PM IST",
+  locationUrl: "https://share.google/aFHmQNSEbUpkLwG6E"
 };

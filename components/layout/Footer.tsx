@@ -37,7 +37,7 @@ export default function Footer() {
           <div className="flex items-center gap-4 text-gold-primary">
             <a href="https://www.instagram.com/astrologylight4all" target="_blank" className="hover:scale-110 transition"><Instagram size={20} /></a>
             <a href="https://www.youtube.com/@MANJULGMALHOTRA" target="_blank" className="hover:scale-110 transition"><Youtube size={20} /></a>
-            <a href="https://share.google/LJlG8RzXVZpegFfl5" target="_blank" className="hover:scale-110 transition"><MapPin size={20} /></a>
+            <a href={CONTACT_INFO.locationUrl} target="_blank" className="hover:scale-110 transition"><MapPin size={20} /></a>
           </div>
         </div>
 

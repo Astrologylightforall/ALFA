@@ -23,7 +23,14 @@ export default function FreeAnalysisPage() {
   });
 
   const onSubmit = (data: AnalysisFormValues) => {
-    // Construct WhatsApp message with details
+    // 1. Submit to Email Backend asynchronously (no await to preserve synchronous popup context)
+    fetch("/api/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "free-analysis", ...data }),
+    }).catch(err => console.error("Auto submission failed:", err));
+
+    // 2. Open WhatsApp immediately to bypass popup blockers
     const text = `Namaste Manjul ji, I would like a Free Horoscope Analysis.\n\nName: ${data.name}\nPhone: ${data.phone}\nDOB: ${data.dob}\nTOB: ${data.tob}\nPOB: ${data.pob}`;
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(text)}`, '_blank');
   };

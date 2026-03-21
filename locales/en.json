@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Manjul Ji",
+    "services": "Services",
+    "blog": "Blog",
+    "testimonials": "Testimonials",
+    "contact": "Contact",
+    "book_free": "Book Free Consultation"
+  },
+  "hero": {
+    "overline": "Delhi's Most Trusted Vedic Astrologer",
+    "headline": "Find Clarity in Life's Greatest Questions",
+    "subheadline": "Expert Vedic astrology guidance from Manjul Malhotra — for career breakthroughs, marriage decisions, financial clarity, and spiritual growth.",
+    "cta_primary": "Get Free Horoscope Analysis",
+    "cta_secondary": "WhatsApp Manjul Ji"
+  },
+  "services": {
+    "overline": "What We Offer",
+    "heading": "Guidance for Every Chapter of Life",
+    "subheading": "From Vedic birth chart analysis to powerful planetary remedies — Manjul Malhotra offers personalised astrology consultations."
+  }
+}

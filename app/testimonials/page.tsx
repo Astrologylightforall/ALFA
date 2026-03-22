@@ -3,7 +3,18 @@
 import { motion } from 'framer-motion';
 import { TESTIMONIALS_DATA } from '@/lib/data';
 
+import { useState } from 'react';
+import { MessageCircle } from 'lucide-react';
+
 export default function TestimonialsPage() {
+  const [selectedSource, setSelectedSource] = useState('All');
+
+  const sources = ['All', 'Google Review', 'WhatsApp'];
+
+  const filteredTestimonials = selectedSource === 'All'
+    ? TESTIMONIALS_DATA
+    : TESTIMONIALS_DATA.filter(t => t.source === selectedSource);
+
   return (
     <>
       <section className="relative h-[35vh] flex items-center justify-center text-center px-4 overflow-hidden bg-primary-bg mt-[-6rem]">
@@ -19,8 +30,26 @@ export default function TestimonialsPage() {
       </section>
 
       <section className="py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-          {TESTIMONIALS_DATA.map((testimonial, index) => (
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          {/* Source Filter */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {sources.map((src) => {
+              const isActive = src === selectedSource;
+              return (
+                <button 
+                  key={src} 
+                  onClick={() => setSelectedSource(src)}
+                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors duration-300 cursor-pointer ${isActive ? "bg-gold-primary text-primary-bg" : "bg-surface/40 text-cream border border-border-accent hover:border-gold-primary hover:text-gold-primary"}`}
+                >
+                  {src === 'Google Review' ? 'Google Reviews' : src}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredTestimonials.map((testimonial, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -44,11 +73,16 @@ export default function TestimonialsPage() {
                   <span>{testimonial.time}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <img src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-4 object-contain brightness-75 mix-blend-screen" />
+                  {testimonial.source === 'Google Review' ? (
+                    <img src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-4 object-contain brightness-75 mix-blend-screen" />
+                  ) : (
+                    <span className="flex items-center gap-1 text-green-500 font-bold text-[11px]"><MessageCircle size={14} /> WhatsApp</span>
+                  )}
                 </div>
               </div>
             </motion.div>
           ))}
+        </div>
         </div>
       </section>
     </>

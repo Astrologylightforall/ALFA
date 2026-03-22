@@ -11,9 +11,13 @@ if (typeof window !== "undefined") {
 import { useGSAP } from "@gsap/react";
 import { useMediaQuery } from "usehooks-ts";
 
+import { useState, useEffect } from "react";
+
 export default function InstagramFeed() {
   const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [activeIndex, setActiveIndex] = useState(0);
 
   // Live post IDs
   const postIds = [
@@ -25,24 +29,42 @@ export default function InstagramFeed() {
     "DUa6DcwjxtV"
   ];
 
+  // Auto-play interval cycler
+  useEffect(() => {
+    if (isMobile) return; 
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % postIds.length);
+    }, 5000); // 5 sec is a safe rate
+    return () => clearInterval(interval);
+  }, [isMobile, postIds.length]);
+
+  // Scroll to active index
+  useEffect(() => {
+    if (isMobile) return;
+    const container = containerRef.current;
+    if (!container) return;
+    
+    const cards = container.querySelectorAll('.insta-card');
+    const targetCard = cards[activeIndex] as HTMLElement;
+    if (targetCard) {
+      container.scrollTo({
+        left: targetCard.offsetLeft - container.offsetWidth / 2 + targetCard.offsetWidth / 2,
+        behavior: 'smooth'
+      });
+    }
+  }, [activeIndex, isMobile]);
+
   useGSAP(() => {
     if (!sectionRef.current) return;
-
-    if (isMobile) {
-      gsap.set(".insta-card", { opacity: 1, y: 0, scale: 1 });
-      return;
-    }
+    if (isMobile) return;
 
     gsap.fromTo(
-      ".insta-card",
-      { y: 60, scale: 0.9, opacity: 0 },
+      sectionRef.current,
+      { opacity: 0, y: 30 },
       {
-        y: 0,
-        scale: 1,
         opacity: 1,
+        y: 0,
         duration: 0.8,
-        stagger: 0.12,
-        ease: "back.out(1.2)",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
@@ -62,14 +84,40 @@ export default function InstagramFeed() {
         </p>
       </div>
 
-      {/* Vertical stack on mobile, Horizontal scroll reel on desktop */}
-      <div 
-        className="max-w-6xl mx-auto flex flex-col md:flex-row md:flex-nowrap gap-6 overflow-y-visible md:overflow-x-auto snap-y md:snap-x snap-mandatory pb-6 md:pb-8 scrollbar-hide px-4 md:px-0 -mx-4 md:mx-auto"
-      >
-        {postIds.map((id) => (
+      {/* Scrollable Container with Arrows */}
+      <div className="relative max-w-6xl mx-auto px-4">
+        
+        {/* Nav Buttons (Desktop) */}
+        {!isMobile && (
+          <>
+            <button 
+              onClick={() => setActiveIndex((prev) => (prev - 1 + postIds.length) % postIds.length)}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 bg-surface/80 hover:bg-surface border border-border-accent p-4 rounded-full text-gold-primary backdrop-blur-md shadow-lg z-20 cursor-pointer hover:border-gold-primary hover:scale-110 transition-all font-bold flex items-center justify-center w-12 h-12"
+            >
+              ←
+            </button>
+            <button 
+              onClick={() => setActiveIndex((prev) => (prev + 1) % postIds.length)}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 bg-surface/80 hover:bg-surface border border-border-accent p-4 rounded-full text-gold-primary backdrop-blur-md shadow-lg z-20 cursor-pointer hover:border-gold-primary hover:scale-110 transition-all font-bold flex items-center justify-center w-12 h-12"
+            >
+              →
+            </button>
+          </>
+        )}
+
+        <div 
+          ref={containerRef}
+          className="flex flex-col md:flex-row md:flex-nowrap gap-6 overflow-y-visible md:overflow-x-auto snap-y md:snap-x snap-mandatory pb-6 md:pb-8 scrollbar-hide items-center"
+        >
+        {postIds.map((id, index) => {
+          const isActive = index === activeIndex;
+          return (
           <div
             key={id}
-            className="insta-card w-full md:min-w-[360px] md:max-w-[400px] aspect-[10/14] rounded-2xl overflow-hidden border border-border-accent/40 bg-surface/40 relative shadow-xl snap-center group"
+            onClick={() => !isMobile && setActiveIndex(index)}
+            className={`insta-card w-full md:min-w-[360px] md:max-w-[400px] aspect-[10/14] rounded-2xl overflow-hidden border border-border-accent/40 bg-surface/40 relative shadow-xl snap-center group transition-all duration-700 ease-out cursor-pointer ${
+              isMobile ? 'scale-100 opacity-100' : isActive ? 'scale-105 opacity-100 z-10 border-gold-primary/60 shadow-[0_20px_40px_rgba(201,168,76,0.15)]' : 'scale-90 opacity-40 filter blur-[4px] hover:opacity-70 hover:blur-[2px]'
+            }`}
           >
 
 
@@ -85,7 +133,21 @@ export default function InstagramFeed() {
               className="group-hover:scale-105 transition-transform duration-700 ease-out"
             ></iframe>
           </div>
-        ))}
+        );})}
+        </div>
+
+        {/* Dots Pagination */}
+        {!isMobile && (
+          <div className="flex justify-center gap-2 mt-4">
+            {postIds.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveIndex(i)}
+                className={`w-2.5 h-2.5 rounded-full border border-gold-primary/40 transition-all duration-300 cursor-pointer ${i === activeIndex ? "bg-gold-primary w-6" : "bg-gold-primary/20"}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="text-center mt-12 md:mt-20">

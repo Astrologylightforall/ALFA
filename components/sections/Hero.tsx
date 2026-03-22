@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useTranslation } from "@/components/providers/LanguageProvider";
 import { CONTACT_INFO } from "@/lib/data";
 import Link from "next/link";
@@ -18,6 +18,15 @@ export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery("(max-width: 1024px)");
+  const [sparkles, setSparkles] = useState<{ top: string; left: string }[]>([]);
+
+  useEffect(() => {
+    const newSparkles = Array.from({ length: 20 }).map(() => ({
+      top: `${Math.random() * 80 + 10}%`,
+      left: `${Math.random() * 80 + 10}%`,
+    }));
+    setSparkles(newSparkles);
+  }, []);
 
   useGSAP(() => {
     if (!heroRef.current || !containerRef.current) return;
@@ -126,13 +135,13 @@ export default function Hero() {
       
       {/* Decorative environment sparkles layout */}
       <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {sparkles.map((sparkle, i) => (
           <div
             key={i}
             className="hero-sparkle absolute w-1 h-1 bg-gold-primary rounded-full opacity-0"
             style={{
-              top: `${Math.random() * 80 + 10}%`,
-              left: `${Math.random() * 80 + 10}%`,
+              top: sparkle.top,
+              left: sparkle.left,
             }}
           />
         ))}

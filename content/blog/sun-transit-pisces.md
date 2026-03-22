@@ -3,6 +3,7 @@ title: "Sun Transit in Pisces 2026: What It Means for Your Zodiac"
 date: "March 15, 2026"
 excerpt: "The Sun enters the watery depths of Pisces. Discover how this spiritual transit affects your career, relationships, and energy."
 author: "Manjul Malhotra"
+category: "Astrology"
 ---
 
 The transit of the Sun into Pisces (Meena Sankranti) marks a beautiful period for introspection and spiritual growth. Pisces is a water sign ruled by Jupiter, making this a harmonious blend of solar energy and higher wisdom.

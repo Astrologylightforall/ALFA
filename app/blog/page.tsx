@@ -3,7 +3,14 @@ import path from 'path';
 import matter from 'gray-matter';
 import Link from 'next/link';
 
-export default function BlogListingPage() {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function BlogListingPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const currentCategory = (params.category as string) || 'All';
+
   const blogsDirectory = path.join(process.cwd(), 'content/blog');
   let files: string[] = [];
   try {
@@ -26,9 +33,14 @@ export default function BlogListingPage() {
     };
   }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const featuredPost = posts.length > 0 ? posts[0] : null;
-  const standardPosts = posts.length > 1 ? posts.slice(1) : [];
   const categories = ['All', ...Array.from(new Set(posts.map(p => p.category)))];
+  
+  const filteredPosts = currentCategory === 'All' 
+    ? posts 
+    : posts.filter(post => post.category === currentCategory);
+
+  const featuredPost = filteredPosts.length > 0 ? filteredPosts[0] : null;
+  const standardPosts = filteredPosts.length > 1 ? filteredPosts.slice(1) : [];
 
   return (
     <>
@@ -49,14 +61,18 @@ export default function BlogListingPage() {
           
           {/* Category Filter Desktop Dummy */}
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {categories.map((cat, i) => (
-              <button 
-                key={cat} 
-                className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors duration-300 ${i === 0 ? "bg-gold-primary text-primary-bg" : "bg-surface/40 text-cream border border-border-accent hover:border-gold-primary hover:text-gold-primary"}`}
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const isActive = cat === currentCategory;
+              return (
+                <Link 
+                  href={`/blog${cat === 'All' ? '' : `?category=${encodeURIComponent(cat)}`}`}
+                  key={cat} 
+                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors duration-300 ${isActive ? "bg-gold-primary text-primary-bg" : "bg-surface/40 text-cream border border-border-accent hover:border-gold-primary hover:text-gold-primary"}`}
+                >
+                  {cat}
+                </Link>
+              );
+            })}
           </div>
 
           {featuredPost && (

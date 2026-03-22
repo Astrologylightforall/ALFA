@@ -18,9 +18,10 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
   const blogsDirectory = path.join(process.cwd(), 'content/blog');
-  const filePath = path.join(blogsDirectory, `${params.slug}.md`);
+  const filePath = path.join(blogsDirectory, `${slug}.md`);
 
   if (!fs.existsSync(filePath)) {
     return { title: 'Not Found' };
@@ -35,9 +36,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const blogsDirectory = path.join(process.cwd(), 'content/blog');
-  const filePath = path.join(blogsDirectory, `${params.slug}.md`);
+  const filePath = path.join(blogsDirectory, `${slug}.md`);
 
   if (!fs.existsSync(filePath)) {
     notFound();

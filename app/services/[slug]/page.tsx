@@ -12,16 +12,18 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const service = SERVICES_DATA.find((s) => s.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const service = SERVICES_DATA.find((s) => s.slug === slug);
   return {
     title: `${service?.title} | Astrology Light For All (ALFA)`,
     description: service?.description,
   };
 }
 
-export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
-  const service = SERVICES_DATA.find((s) => s.slug === params.slug);
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const service = SERVICES_DATA.find((s) => s.slug === slug);
 
   if (!service) {
     notFound();

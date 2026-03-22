@@ -5,9 +5,17 @@ import { useTranslation } from '@/components/providers/LanguageProvider';
 import { SERVICES_DATA } from '@/lib/data';
 import Link from 'next/link';
 import * as LucideIcons from 'lucide-react';
+import { useState } from 'react';
 
 export default function ServicesPage() {
   const { t, language } = useTranslation();
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = ['All', 'Astrology', 'Marriage', 'Vastu'];
+
+  const filteredServices = selectedCategory === 'All' 
+    ? SERVICES_DATA 
+    : SERVICES_DATA.filter(service => (service as any).category === selectedCategory);
 
   return (
     <>
@@ -35,8 +43,26 @@ export default function ServicesPage() {
 
       {/* Services Grid Detailed */}
       <section className="py-20 bg-secondary-bg px-4 border-t border-border-accent">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          {SERVICES_DATA.map((service, index) => {
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          {/* Category Filter */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {categories.map((cat) => {
+              const isActive = cat === selectedCategory;
+              return (
+                <button 
+                  key={cat} 
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors duration-300 cursor-pointer ${isActive ? "bg-gold-primary text-primary-bg" : "bg-surface/40 text-cream border border-border-accent hover:border-gold-primary hover:text-gold-primary"}`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredServices.map((service, index) => {
             const IconComponent = (LucideIcons as any)[service.icon] || LucideIcons.FileText;
 
             return (
@@ -94,6 +120,7 @@ export default function ServicesPage() {
               </motion.div>
             )
           })}
+        </div>
         </div>
       </section>
     </>

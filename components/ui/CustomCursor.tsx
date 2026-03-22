@@ -8,7 +8,7 @@ import { useMediaQuery } from "usehooks-ts";
 export default function CustomCursor() {
   const cursorDot = useRef<HTMLDivElement>(null);
   const cursorRing = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
+  const isHovering = useRef(false);
   const pathname = usePathname();
   // We use max-width 768px as a basic breakpoint for avoiding custom cursor on mobile
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -59,7 +59,7 @@ export default function CustomCursor() {
     };
 
     const handleHoverStart = (e: Event) => {
-      setIsHovering(true);
+      isHovering.current = true;
       const target = e.target as HTMLElement;
       const isMagnetic = target.classList?.contains("magnetic") || target.closest(".magnetic");
 
@@ -73,7 +73,7 @@ export default function CustomCursor() {
     };
 
     const handleHoverEnd = (e: Event) => {
-      setIsHovering(false);
+      isHovering.current = false;
       
       const target = e.target as HTMLElement;
       const magneticTarget = target.classList?.contains("magnetic") ? target : target.closest(".magnetic");
@@ -96,7 +96,7 @@ export default function CustomCursor() {
     };
 
     const handleMouseUp = () => {
-      gsap.to([dot, ring], { scale: isHovering ? 1.5 : 1, duration: 0.3, ease: "elastic.out(1, 0.3)" });
+      gsap.to([dot, ring], { scale: isHovering.current ? 1.5 : 1, duration: 0.3, ease: "elastic.out(1, 0.3)" });
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -118,7 +118,7 @@ export default function CustomCursor() {
         el.removeEventListener("mouseleave", handleHoverEnd);
       });
     };
-  }, [pathname, isHovering, isMobile]);
+  }, [pathname, isMobile]);
 
   if (isMobile) return null;
 

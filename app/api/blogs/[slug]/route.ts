@@ -5,8 +5,9 @@ import path from 'path';
 const BLOGS_DIR = path.join(process.cwd(), 'content', 'blog');
 const getFilePath = (slug: string) => path.join(BLOGS_DIR, `${slug}.md`);
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ slug: string }> }) {
   try {
+    const params = await props.params;
     const filePath = getFilePath(params.slug);
     
     if (!fs.existsSync(filePath)) {
@@ -20,8 +21,9 @@ export async function GET(request: Request, { params }: { params: { slug: string
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { slug: string } }) {
+export async function PUT(request: Request, props: { params: Promise<{ slug: string }> }) {
   try {
+    const params = await props.params;
     const { content } = await request.json();
     const filePath = getFilePath(params.slug);
 
@@ -36,8 +38,9 @@ export async function PUT(request: Request, { params }: { params: { slug: string
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { slug: string } }) {
+export async function DELETE(request: Request, props: { params: Promise<{ slug: string }> }) {
   try {
+    const params = await props.params;
     const filePath = getFilePath(params.slug);
 
     if (!fs.existsSync(filePath)) {

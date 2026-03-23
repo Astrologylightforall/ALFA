@@ -3,7 +3,12 @@
 import { MessageCircle } from 'lucide-react';
 import { CONTACT_INFO } from '@/lib/data';
 
+import { usePathname } from 'next/navigation';
+
 export default function FloatingWhatsApp() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) return null;
+
   return (
     <a 
       href={`https://wa.me/${CONTACT_INFO.whatsapp}?text=Namaste%20Manjul%20ji`} 

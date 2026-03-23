@@ -25,10 +25,10 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormValues) => {
     try {
-      const resp = await fetch("/api/submit", {
+      const resp = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "contact", ...data }),
+        body: JSON.stringify({ source: "Contact Form", ...data }),
       });
       if (resp.ok) {
         setIsSuccess(true);

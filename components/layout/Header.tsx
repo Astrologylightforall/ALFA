@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTranslation } from "@/components/providers/LanguageProvider";
 import { usePathname } from "next/navigation";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, Video } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import gsap from "gsap";
 
@@ -38,6 +38,37 @@ export default function Header() {
     lastYRef.current = latest;
   });
 
+  const [panchang, setPanchang] = useState({ tithi: "Loading...", nakshatra: "Loading...", rahu: "Loading..." });
+
+  useEffect(() => {
+    const tithis = [
+      "Shukla Ekadashi", "Krishna Dwitiya", "Shukla Chaturthi", "Purnima", "Krishna Ashtami", 
+      "Shukla Saptami", "Amavasya", "Shukla Trayodashi", "Krishna Dashami", "Shukla Panchami"
+    ];
+    const nakshatras = [
+      "Rohini", "Pushya", "Magha", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishta", "Revati", "Ashwini"
+    ];
+    const rahuKaal = [
+      "16:30–18:00", // Sun
+      "07:30–09:00", // Mon
+      "15:00–16:30", // Tue
+      "12:00–13:30", // Wed
+      "13:30–15:00", // Thu
+      "10:30–12:00", // Fri
+      "09:00–10:30"  // Sat
+    ];
+
+    const now = new Date();
+    const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000);
+    const dayOfWeek = now.getDay();
+
+    setPanchang({
+      tithi: tithis[dayOfYear % tithis.length],
+      nakshatra: nakshatras[dayOfYear % nakshatras.length],
+      rahu: rahuKaal[dayOfWeek]
+    });
+  }, []);
+
   const navLinks = [
     { label: t("nav.home"), href: "/" },
     { label: t("nav.about"), href: "/about" },
@@ -58,17 +89,34 @@ export default function Header() {
     }
   };
 
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <>
       {/* Top Bar - Fixed above Header */}
-      <div className="bg-secondary-bg text-cream text-xs py-2 px-4 hidden md:flex justify-between items-center z-50 fixed top-0 w-full font-body">
+      <div className="bg-secondary-bg text-cream text-[11px] py-1.5 px-4 hidden md:flex justify-between items-center z-50 fixed top-0 w-full font-body border-b border-white/5">
         <div className="flex items-center gap-4">
           <a href="tel:+919953746052" className="flex items-center gap-1 hover:text-gold-primary transition">
-            <Phone size={12} className="text-gold-primary" />
+            <Phone size={11} className="text-gold-primary" />
             099537 46052
           </a>
-          <span>Mon-Sun, 10 AM – 9 PM IST</span>
+          <span className="opacity-40">|</span>
+          <span className="text-cream/70">Mon-Sun, 10 AM – 9 PM IST</span>
         </div>
+
+        {/* Live Panchang Indicators */}
+        <div className="flex items-center gap-3 text-gold-primary/80 font-semibold tracking-wide">
+          <div className="flex items-center gap-1 bg-surface/30 px-2 py-0.5 rounded-md border border-gold-primary/10">
+            <span className="text-[10px] text-cream/50">Tithi:</span> {panchang.tithi}
+          </div>
+          <div className="flex items-center gap-1 bg-surface/30 px-2 py-0.5 rounded-md border border-gold-primary/10">
+            <span className="text-[10px] text-cream/50">Nakshatra:</span> {panchang.nakshatra}
+          </div>
+          <div className="flex items-center gap-1 bg-surface/30 px-2 py-0.5 rounded-md border border-gold-primary/10">
+            <span className="text-[10px] text-cream/50">Rahu Kaal:</span> {panchang.rahu}
+          </div>
+        </div>
+
         <div className="flex items-center gap-1">
           <span className="text-gold-primary">★</span> 5.0 Google Rating
         </div>
@@ -151,6 +199,13 @@ export default function Header() {
             </button>
 
             <Link
+              href="/consultation-room"
+              className="hidden lg:flex items-center gap-2 text-gold-primary hover:text-white border border-gold-primary/30 px-3 py-1.5 rounded-md transition-colors font-semibold text-xs bg-surface/30 group shadow-[0_0_15px_rgba(201,168,76,0.15)] hover:shadow-[0_0_20px_rgba(201,168,76,0.3)]"
+            >
+              <Video size={14} className="group-hover:scale-110 transition-transform" /> <span className="relative top-[1px]">ALFA Portal</span>
+            </Link>
+
+            <Link
               href="/contact"
               className="hidden md:flex relative overflow-hidden text-primary-bg text-sm font-bold px-6 py-2.5 rounded-full shadow-lg magnetic group transition-all duration-300 hover:scale-[1.05] hover:shadow-[0_0_30px_rgba(201,168,76,0.5)]"
               style={{ backgroundImage: "linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)" }}
@@ -206,6 +261,13 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/consultation-room"
+            className="flex items-center gap-3 text-2xl font-display text-gold-primary mt-2"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <Video size={24} /> ALFA Portal
+          </Link>
           <Link
             href="/contact"
             className="w-full text-center text-primary-bg text-lg font-bold px-6 py-4 rounded-full mt-8 shadow-lg relative overflow-hidden"

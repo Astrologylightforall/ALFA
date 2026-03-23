@@ -83,29 +83,34 @@ export default function Hero() {
         }
       );
 
-      // Parallax and exit
+      // Advanced Mouse Parallax Trackers
       if (!isMobile) {
-        gsap.to(".hero-wheel", {
-          y: "15%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          }
-        });
+        let xToWheel = gsap.quickTo(".hero-wheel", "x", { duration: 1, ease: "power3" }),
+            yToWheel = gsap.quickTo(".hero-wheel", "y", { duration: 1, ease: "power3" }),
+            xToAstro = gsap.quickTo(".hero-astrologer", "x", { duration: 0.6, ease: "power3" }),
+            yToAstro = gsap.quickTo(".hero-astrologer", "y", { duration: 0.6, ease: "power3" }),
+            xToBadge1 = gsap.quickTo(".float-badge-1", "x", { duration: 1.5, ease: "power2" }),
+            yToBadge1 = gsap.quickTo(".float-badge-1", "y", { duration: 1.5, ease: "power2" }),
+            xToBadge2 = gsap.quickTo(".float-badge-2", "x", { duration: 1.2, ease: "power2" }),
+            yToBadge2 = gsap.quickTo(".float-badge-2", "y", { duration: 1.2, ease: "power2" });
 
-        gsap.to(".hero-astrologer", {
-          y: "8%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          }
-        });
+        const handleMouseMove = (e: MouseEvent) => {
+          const { innerWidth, innerHeight } = window;
+          const xPos = (e.clientX / innerWidth - 0.5);
+          const yPos = (e.clientY / innerHeight - 0.5);
+
+          xToWheel(xPos * -40);
+          yToWheel(yPos * -40);
+          xToAstro(xPos * 30);
+          yToAstro(yPos * 30);
+          xToBadge1(xPos * -60);
+          yToBadge1(yPos * -60);
+          xToBadge2(xPos * 70);
+          yToBadge2(yPos * 70);
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
       }
 
     }, containerRef);
@@ -152,42 +157,75 @@ export default function Hero() {
         {/* Left: Content layout */}
         <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 relative">
           
-          <h1 className="hero-text-item font-display text-[2.75rem] leading-[1.05] md:text-6xl lg:text-[4.2rem] font-bold text-white tracking-tight leading-none">
-            <span className="text-gold-primary block mb-1">Manjul Malhotra</span>
-            <span className="text-white text-3xl md:text-4xl lg:text-5xl font-medium block mt-1 tracking-normal opacity-90">— Astrologer & Vastu Expert</span>
+          <h1 className="hero-text-item font-display text-[2.75rem] leading-[1.05] md:text-6xl lg:text-[4.2rem] font-bold tracking-tight pb-3">
+            <span className="text-gold-primary block mb-2">Manjul Malhotra</span>
+            <span 
+              className="mt-2 tracking-normal opacity-95 bg-clip-text text-transparent bg-[length:200%_auto] text-2xl md:text-3xl lg:text-[2.5rem] font-medium leading-normal"
+              style={{
+                backgroundImage: "linear-gradient(to right, #ffffff 0%, #C9A84C 50%, #ffffff 100%)",
+                animation: "shimmer 5s linear infinite"
+              }}
+            >
+              — Astrologer & Vastu Expert
+            </span>
           </h1>
 
           <p className="hero-text-item font-body text-base md:text-[20px] text-cream/80 max-w-xl leading-relaxed">
             Unlock Your True Potential - Professional Astrology & Vastu Consultations
           </p>
 
-          <div className="hero-text-item flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
+          <div className="hero-text-item flex flex-col sm:flex-row items-center gap-4 pt-6 w-full sm:w-auto">
             <Link
               href="/contact"
-              className="magnetic relative overflow-hidden group w-full sm:w-auto text-primary-bg font-bold px-8 py-4 rounded-full shadow-[0_10px_30px_rgba(201,168,76,0.3)] hover:scale-105 transition-transform flex items-center justify-center gap-2 text-sm border border-gold-primary"
-              style={{ backgroundImage: "linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)" }}
+              className="relative overflow-hidden group w-full sm:w-auto bg-gradient-to-r from-gold-primary via-[#F5E1A4] to-gold-primary text-black font-display font-bold px-10 py-4 rounded-full shadow-[0_10px_40px_rgba(201,168,76,0.4)] hover:shadow-[0_15px_60px_rgba(201,168,76,0.6)] hover:scale-105 transition-all duration-500 flex items-center justify-center gap-3 text-sm md:text-base border border-white/40 bg-[length:200%_auto] hover:bg-right"
+              style={{ transition: 'background-position 0.8s ease-out, transform 0.5s ease' }}
             >
-              <span className="relative z-10 flex items-center gap-2">Book Consultation <span className="group-hover:translate-x-1 transition-transform">→</span></span>
+              {/* Shine effect that sweeps across on hover */}
+              <div className="absolute top-0 -inset-full h-full w-1/2 z-0 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 group-hover:animate-shine" />
+              
+              <span className="relative z-10 flex items-center gap-2">Book Free Consultation <span className="group-hover:translate-x-2 transition-transform duration-300">→</span></span>
             </Link>
           </div>
 
           {/* Quote Card inside Hero */}
-          <div className="hero-text-item bg-surface/40 backdrop-blur-md border border-gold-primary/15 p-6 rounded-2xl max-w-sm mt-6 relative shadow-2xl flex flex-col">
-             <div className="absolute top-4 left-4 text-gold-primary/30 text-4xl font-display">“</div>
-             <p className="font-body text-cream/90 italic text-[14px] leading-relaxed pl-4 pr-2">
+          <div className="hero-text-item bg-surface/10 backdrop-blur-xl border border-gold-primary/30 p-6 rounded-2xl max-w-sm mt-6 relative shadow-[0_8px_32px_rgba(201,168,76,0.15)] flex flex-col group hover:shadow-[0_8px_32px_rgba(201,168,76,0.25)] transition-all duration-500">
+             <div className="absolute -top-3 -left-3 w-10 h-10 bg-gradient-gold rounded-full flex items-center justify-center text-primary-bg text-2xl font-display shadow-lg group-hover:scale-110 transition-transform">“</div>
+             <p className="font-body text-cream/90 italic text-[14px] leading-relaxed pl-4 pr-2 mt-2">
                "Jyotish Shastra is not about fatalism. It is the light that helps you navigate."
              </p>
-             <p className="text-gold-primary text-xs font-bold mt-3 tracking-widest pl-4 uppercase">
+             <p className="text-gold-primary text-[10px] font-bold mt-4 tracking-[0.2em] pl-4 uppercase">
                — Manjul Malhotra
              </p>
           </div>
 
-          <p className="hero-text-item text-cream/50 text-xs font-medium tracking-wider pt-2">Manjul Malhotra, Expert Astrologer</p>
+          <p className="hero-text-item text-cream/40 text-[10px] font-medium tracking-[0.3em] pt-4 uppercase">Expert Vedic Astrologer</p>
         </div>
 
         {/* Right: Astrological visual and layout */}
         <div className="lg:col-span-6 relative flex justify-center items-center w-full mt-10 lg:mt-0 min-h-[400px] md:min-h-[500px]">
           
+          {/* Floating Glassmorphism Badge */}
+          <div className="float-badge-1 absolute top-10 right-0 md:-right-10 bg-surface/20 backdrop-blur-2xl border border-white/10 p-4 rounded-3xl shadow-2xl z-30 animate-[float_6s_ease-in-out_infinite] flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-gold-primary/20 flex items-center justify-center text-gold-primary text-xl">
+              ✨
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm leading-tight">100% Verified</p>
+              <p className="text-gold-primary/80 text-[10px] uppercase tracking-wider">Vedic Solutions</p>
+            </div>
+          </div>
+
+          {/* Another Floating Badge */}
+          <div className="float-badge-2 absolute bottom-20 left-0 md:-left-12 bg-surface/20 backdrop-blur-2xl border border-white/10 p-4 rounded-3xl shadow-2xl z-30 animate-[float_7s_ease-in-out_infinite_reverse] flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 text-xl">
+              🔮
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm leading-tight">Accurate</p>
+              <p className="text-indigo-300/80 text-[10px] uppercase tracking-wider">Predictions</p>
+            </div>
+          </div>
+
           {/* Astrological Chart / Sun Backdrop (Layer wheel) */}
           <div className="hero-wheel absolute w-[150%] max-w-[450px] md:w-[600px] aspect-square rounded-full opacity-35 filter pointer-events-none -z-10 flex items-center justify-center">
             {/* Sun graphic backdrop from template design */}
@@ -196,19 +234,19 @@ export default function Hero() {
             <img 
               src="/images/mystic-hero.png"
               alt="Astrological Chart"
-              className="hero-wheel-rotate w-full h-full object-cover rounded-full filter drop-shadow-[0_0_30px_rgba(201,168,76,0.2)]"
+              className="hero-wheel-rotate w-full h-full object-cover rounded-full filter drop-shadow-[0_0_50px_rgba(201,168,76,0.3)]"
             />
           </div>
 
           {/* Glowing central orb background behind person */}
-          <div className="absolute w-[300px] h-[300px] bg-gold-primary/25 filter blur-[100px] rounded-full" />
+          <div className="absolute w-[300px] h-[300px] bg-gradient-to-tr from-gold-primary/40 to-indigo-500/20 filter blur-[100px] rounded-full animate-pulse-slow" />
 
           {/* Large portrait image layout */}
-          <div className="hero-astrologer relative w-full h-[380px] md:h-[500px] flex items-end justify-center z-10">
+          <div className="hero-astrologer relative w-full h-[380px] md:h-[500px] flex items-end justify-center z-10 group">
             <img 
               src="/images/manjul-hero.png" 
               alt="Manjul Malhotra" 
-              className="h-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] scale-110 origin-bottom"
+              className="h-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] scale-110 origin-bottom transition-transform duration-700 group-hover:scale-[1.15]"
             />
           </div>
         </div>

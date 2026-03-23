@@ -5,8 +5,13 @@ import { useTranslation } from '@/components/providers/LanguageProvider';
 import { CONTACT_INFO, SERVICES_DATA } from '@/lib/data';
 import { Phone, MessageCircle, Mail, MapPin, Instagram, Youtube } from 'lucide-react';
 
+import { usePathname } from 'next/navigation';
+
 export default function Footer() {
   const { t } = useTranslation();
+  const pathname = usePathname();
+
+  if (pathname.startsWith('/admin')) return null;
 
   return (
     <footer className="bg-primary-bg border-t border-border-accent text-cream pt-16 pb-6">

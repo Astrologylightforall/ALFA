@@ -8,6 +8,9 @@ import WhyChooseALFA from "@/components/sections/WhyChooseALFA";
 import InstagramFeed from "@/components/sections/InstagramFeed";
 import ContactSnippet from "@/components/sections/ContactSnippet";
 import TextMarquee from "@/components/ui/TextMarquee";
+import NumerologyCalculator from "@/components/sections/NumerologyCalculator";
+import DailyHoroscope from "@/components/sections/DailyHoroscope";
+import LiveTransits from "@/components/sections/LiveTransits";
 
 export default function Home() {
   return (
@@ -15,6 +18,9 @@ export default function Home() {
       <Hero />
       <TextMarquee />
       <ServicesGrid />
+      <NumerologyCalculator />
+      <DailyHoroscope />
+      <LiveTransits />
       <CTABanner />
       <AboutSnippet />
       <StatsBar />

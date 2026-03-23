@@ -15,9 +15,7 @@ import { useState, useEffect } from "react";
 
 export default function InstagramFeed() {
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [activeIndex, setActiveIndex] = useState(0);
 
   // Live post IDs
   const postIds = [
@@ -28,31 +26,6 @@ export default function InstagramFeed() {
     "DUoA_W8j5Vd",
     "DUa6DcwjxtV"
   ];
-
-  // Auto-play interval cycler
-  useEffect(() => {
-    if (isMobile) return; 
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % postIds.length);
-    }, 5000); // 5 sec is a safe rate
-    return () => clearInterval(interval);
-  }, [isMobile, postIds.length]);
-
-  // Scroll to active index
-  useEffect(() => {
-    if (isMobile) return;
-    const container = containerRef.current;
-    if (!container) return;
-    
-    const cards = container.querySelectorAll('.insta-card');
-    const targetCard = cards[activeIndex] as HTMLElement;
-    if (targetCard) {
-      container.scrollTo({
-        left: targetCard.offsetLeft - container.offsetWidth / 2 + targetCard.offsetWidth / 2,
-        behavior: 'smooth'
-      });
-    }
-  }, [activeIndex, isMobile]);
 
   useGSAP(() => {
     if (!sectionRef.current) return;
@@ -84,73 +57,31 @@ export default function InstagramFeed() {
         </p>
       </div>
 
-      {/* Scrollable Container with Arrows */}
-      <div className="relative max-w-6xl mx-auto px-4">
-        
-        {/* Nav Buttons (Desktop) */}
-        {!isMobile && (
-          <>
-            <button 
-              onClick={() => setActiveIndex((prev) => (prev - 1 + postIds.length) % postIds.length)}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 bg-surface/80 hover:bg-surface border border-border-accent p-4 rounded-full text-gold-primary backdrop-blur-md shadow-lg z-20 cursor-pointer hover:border-gold-primary hover:scale-110 transition-all font-bold flex items-center justify-center w-12 h-12"
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+          {postIds.map((id) => (
+            <div
+              key={id}
+              className="insta-card w-full aspect-[9/16] rounded-2xl overflow-hidden border border-border-accent/40 bg-surface/40 relative shadow-xl group transition-all duration-500 hover:scale-[1.02] hover:border-gold-primary/60 hover:shadow-[0_20px_40px_rgba(201,168,76,0.15)]"
             >
-              ←
-            </button>
-            <button 
-              onClick={() => setActiveIndex((prev) => (prev + 1) % postIds.length)}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 bg-surface/80 hover:bg-surface border border-border-accent p-4 rounded-full text-gold-primary backdrop-blur-md shadow-lg z-20 cursor-pointer hover:border-gold-primary hover:scale-110 transition-all font-bold flex items-center justify-center w-12 h-12"
-            >
-              →
-            </button>
-          </>
-        )}
-
-        <div 
-          ref={containerRef}
-          className="flex flex-col md:flex-row md:flex-nowrap gap-6 overflow-y-visible md:overflow-x-auto snap-y md:snap-x snap-mandatory pb-6 md:pb-8 scrollbar-hide items-center"
-        >
-        {postIds.map((id, index) => {
-          const isActive = index === activeIndex;
-          return (
-          <div
-            key={id}
-            onClick={() => !isMobile && setActiveIndex(index)}
-            className={`insta-card w-full md:min-w-[360px] md:max-w-[400px] aspect-[10/14] rounded-2xl overflow-hidden border border-border-accent/40 bg-surface/40 relative shadow-xl snap-center group transition-all duration-700 ease-out cursor-pointer ${
-              isMobile ? 'scale-100 opacity-100' : isActive ? 'scale-105 opacity-100 z-10 border-gold-primary/60 shadow-[0_20px_40px_rgba(201,168,76,0.15)]' : 'scale-90 opacity-40 filter blur-[4px] hover:opacity-70 hover:blur-[2px]'
-            }`}
-          >
-
-
-            {/* Direct Individual Post iframe */}
-            <iframe 
-              src={`https://www.instagram.com/p/${id}/embed`} 
-              width="100%" 
-              height="100%" 
-              frameBorder="0" 
-              scrolling="no" 
-              title={`Instagram Post ${id}`}
-              style={{ width: "calc(100% + 2px)", height: "calc(100% + 2px)", margin: "-1px" }}
-              className="group-hover:scale-105 transition-transform duration-700 ease-out"
-            ></iframe>
-          </div>
-        );})}
+              {/* Note: Autoplay is not supported by Instagram iframe embeds due to browser & platform restrictions.
+                  If you want reels to autoplay, they should be standard <video> tags with .mp4 files. */}
+              <iframe
+                src={`https://www.instagram.com/p/${id}/embed`}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                scrolling="no"
+                title={`Instagram Post ${id}`}
+                style={{ width: "calc(100% + 2px)", height: "calc(100% + 2px)", margin: "-1px" }}
+                className="transition-transform duration-700 ease-out"
+              ></iframe>
+            </div>
+          ))}
         </div>
-
-        {/* Dots Pagination */}
-        {!isMobile && (
-          <div className="flex justify-center gap-2 mt-4">
-            {postIds.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIndex(i)}
-                className={`w-2.5 h-2.5 rounded-full border border-gold-primary/40 transition-all duration-300 cursor-pointer ${i === activeIndex ? "bg-gold-primary w-6" : "bg-gold-primary/20"}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
-      <div className="text-center mt-12 md:mt-20">
+      <div className="text-center mt-12 md:mt-16">
         <a 
           href="https://www.instagram.com/astrologylight4all" 
           target="_blank" 

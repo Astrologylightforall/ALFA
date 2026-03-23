@@ -23,11 +23,11 @@ export default function FreeAnalysisPage() {
   });
 
   const onSubmit = (data: AnalysisFormValues) => {
-    // 1. Submit to Email Backend asynchronously (no await to preserve synchronous popup context)
-    fetch("/api/submit", {
+    // 1. Log Lead internally
+    fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "free-analysis", ...data }),
+      body: JSON.stringify({ source: "Free Horoscope Request", ...data }),
     }).catch(err => console.error("Auto submission failed:", err));
 
     // 2. Open WhatsApp immediately to bypass popup blockers

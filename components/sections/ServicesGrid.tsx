@@ -125,22 +125,25 @@ export default function ServicesGrid() {
                 <div
                   onMouseMove={handleMouseMove}
                   onMouseEnter={handleMouseEnter}
-                  className="relative h-full bg-surface/30 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-border-accent border-t-[3px] border-t-gold-primary transition-all duration-300 shadow-xl group hover:shadow-[0_0_30px_rgba(201,168,76,0.15)] hover:border-t-[3px] hover:border-t-gold-light cursor-pointer flex flex-col justify-between overflow-hidden"
+                  className="relative h-full bg-[#111617]/40 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/5 transition-all duration-500 shadow-xl group hover:shadow-[0_20px_40px_rgba(201,168,76,0.15)] hover:border-gold-primary/30 cursor-pointer flex flex-col justify-between overflow-hidden"
                 >
-                  {/* Cursor Tracking Gradient */}
+                  {/* Glowing Outline Layer */}
+                  <div className="absolute inset-0 rounded-2xl border-[1.5px] border-transparent bg-gradient-to-br from-gold-primary/0 via-gold-primary/0 to-gold-primary/0 group-hover:from-gold-primary/40 group-hover:via-gold-primary/10 group-hover:to-gold-primary/5 transition-all duration-700 pointer-events-none [mask-image:linear-gradient(white,white)] [-webkit-mask-image:-webkit-linear-gradient(white,white)] [mask-composite:exclude] [-webkit-mask-composite:destination-out] z-20" />
+
+                  {/* Cursor Tracking Gradient Spot */}
                   <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
                     style={{
-                      background: "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201,168,76,0.12) 0%, transparent 60%)"
+                      background: "radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201,168,76,0.15), transparent 40%)"
                     }}
                   />
 
                   <div className="relative z-10">
-                    <div className="service-icon w-14 h-14 rounded-full bg-gold-primary/10 border border-gold-primary/20 flex items-center justify-center text-gold-primary mb-6 group-hover:bg-gold-primary group-hover:text-primary-bg transition-colors duration-300">
+                    <div className="service-icon w-14 h-14 rounded-full bg-surface/50 border border-gold-primary/10 flex items-center justify-center text-gold-primary mb-6 group-hover:bg-gradient-gold group-hover:border-transparent group-hover:text-primary-bg transition-colors duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(201,168,76,0.4)]">
                       <IconComponent size={26} strokeWidth={1.5} />
                     </div>
 
-                    <h3 className="font-display text-2xl font-bold text-white mb-3">
+                    <h3 className="font-display text-2xl font-bold text-white mb-3 tracking-tight">
                       {language === "hi" ? service.title_hindi : service.title}
                     </h3>
 

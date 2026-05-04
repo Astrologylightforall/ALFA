@@ -27,7 +27,7 @@ export default function NumerologyCalculator() {
 
   const calculateLifePath = (dateString: string) => {
     if (!dateString) return;
-    
+
     // Reduce a number to a single digit (unless it's a master number 11, 22, 33)
     const reduceNumber = (num: number): number => {
       if (num === 11 || num === 22 || num === 33) return num;
@@ -40,8 +40,8 @@ export default function NumerologyCalculator() {
     if (parts.length === 3) {
       const year = reduceNumber(parseInt(parts[0]));
       const month = reduceNumber(parseInt(parts[1]));
-      const day =  reduceNumber(parseInt(parts[2]));
-      
+      const day = reduceNumber(parseInt(parts[2]));
+
       const total = reduceNumber(year + month + day);
       setLifePathNumber(total);
     }
@@ -55,32 +55,32 @@ export default function NumerologyCalculator() {
   const resultData = lifePathNumber ? LIFE_PATH_DATA[lifePathNumber] || LIFE_PATH_DATA[1] : null;
 
   return (
-    <section className="py-24 bg-secondary-bg relative px-4 overflow-hidden border-t border-white/5">
+    <section className="py-16 md:py-24 bg-secondary-bg relative px-4 overflow-hidden border-t border-white/5">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full filter blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-primary/10 rounded-full filter blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10 relative">
-        
+
         {/* Left Side: Form */}
         <div className="space-y-8">
           <div>
             <span className="text-gold-primary text-xs uppercase tracking-widest font-semibold font-body block opacity-80 mb-2">
               Cosmic Numerology
             </span>
-            <SweepHeading>
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight pb-2">
-                Discover Your <br/><span className="text-gold-primary">Life Path Number</span>
-              </h2>
+            <SweepHeading as="h2">
+              <span className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight pb-2 block">
+                Discover Your <br /><span className="text-gold-primary">Life Path Number</span>
+              </span>
             </SweepHeading>
             <p className="font-body text-cream/70 mt-4 leading-relaxed max-w-md">
               Your birth date holds the secret to your cosmic blueprint. Calculate your Life Path Number to reveal your deepest traits, challenges, and life purpose based on Vedic numerology principles.
             </p>
           </div>
 
-          <form onSubmit={handleCalculate} className="bg-surface/40 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-3xl shadow-xl flex flex-col gap-6 max-w-md relative overflow-hidden group">
+          <form onSubmit={handleCalculate} className="bg-surface/40 backdrop-blur-xl border border-white/10 p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-xl flex flex-col gap-6 max-w-md relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gold-primary/10 rounded-full filter blur-[40px] pointer-events-none group-hover:opacity-100 opacity-50 transition-opacity" />
-            
+
             <div className="relative z-10">
               <label className="block text-[11px] uppercase tracking-widest text-gold-primary mb-2 font-bold ml-1">
                 Enter your Date of Birth
@@ -93,7 +93,7 @@ export default function NumerologyCalculator() {
                 className="w-full bg-[#111617]/80 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-cream/20 focus:outline-none focus:border-gold-primary/60 focus:bg-white/5 transition-all duration-300 shadow-inner [color-scheme:dark]"
               />
             </div>
-            
+
             <button
               type="submit"
               disabled={!dob}
@@ -117,7 +117,7 @@ export default function NumerologyCalculator() {
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-full bg-[#0A0D0E]/80 backdrop-blur-3xl border border-gold-primary/30 p-8 md:p-10 rounded-3xl shadow-[inset_0_0_80px_rgba(201,168,76,0.08)] relative overflow-hidden"
+                className="w-full bg-[#0A0D0E]/80 backdrop-blur-3xl border border-gold-primary/30 p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-[inset_0_0_80px_rgba(201,168,76,0.08)] relative overflow-hidden"
               >
                 {/* Large Background Number Watermark */}
                 <div className="absolute -right-10 -bottom-10 text-[200px] font-display font-bold text-white/5 pointer-events-none select-none">
@@ -159,9 +159,9 @@ export default function NumerologyCalculator() {
                     </div>
 
                     <div className="pt-6">
-                       <Link href="/contact" className="inline-flex items-center gap-2 text-sm text-gold-primary hover:text-white transition-colors font-bold uppercase tracking-wider group">
-                         Get detailed numbers reading <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                       </Link>
+                      <Link href="/contact" className="inline-flex items-center gap-2 text-sm text-gold-primary hover:text-white transition-colors font-bold uppercase tracking-wider group">
+                        Get detailed numbers reading <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                      </Link>
                     </div>
                   </div>
                 </div>

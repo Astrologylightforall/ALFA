@@ -65,11 +65,11 @@ export default function CTABanner() {
   }, [isMobile]);
 
   return (
-    <section ref={sectionRef} className="relative py-20 px-4 text-primary-bg overflow-hidden z-10">
+    <section ref={sectionRef} className="relative py-12 md:py-20 px-4 text-primary-bg overflow-hidden z-10">
       
       {/* Background with Parallax */}
-      <div className="absolute inset-0 bg-[#0E1618] overflow-hidden">
-        <div className="cta-bg-parallax absolute -inset-[20%] opacity-[0.95]" style={{ backgroundImage: "linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)" }} />
+      <div className="absolute inset-0 bg-primary-bg overflow-hidden">
+        <div className="cta-bg-parallax absolute -inset-[20%] opacity-[0.95] bg-gradient-gold" />
       </div>
 
       {/* Sweep overlay blocks */}
@@ -86,11 +86,11 @@ export default function CTABanner() {
       </div>
 
       <div className="cta-content-wrapper max-w-4xl mx-auto text-center space-y-8 relative z-10 w-full">
-        <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0A0812]">
+        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0A0812]">
           {language === "hi" ? "मुफ़्त कुंडली विश्लेषण से शुरुआत करें" : "Start With a Free Horoscope Analysis"}
         </h2>
 
-        <p className="font-body text-base md:text-[19px] max-w-2xl mx-auto font-medium text-[#1A1235]/80 leading-relaxed px-4">
+        <p className="font-body text-base md:text-[19px] max-w-2xl mx-auto font-medium text-primary-bg/80 leading-relaxed px-4">
           No commitment. No cost. Simply share your birth details and Manjul ji will provide a free initial reading — giving you a taste of the clarity that expert Vedic astrology can bring to your life.
         </p>
 

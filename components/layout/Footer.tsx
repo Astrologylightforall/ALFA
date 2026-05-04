@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslation } from '@/components/providers/LanguageProvider';
 import { CONTACT_INFO, SERVICES_DATA } from '@/lib/data';
 import { Phone, MessageCircle, Mail, MapPin, Instagram, Youtube } from 'lucide-react';
@@ -14,24 +15,25 @@ export default function Footer() {
   if (pathname.startsWith('/admin')) return null;
 
   return (
-    <footer className="bg-primary-bg border-t border-border-accent text-cream pt-16 pb-6">
+    <footer className="bg-primary-bg border-t border-border-accent text-cream pt-16 md:pt-24 pb-20 md:pb-8 relative overflow-hidden z-10">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Column 1: Logo & Socials */}
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
           <Link href="/" className="flex items-center gap-2 group">
-            <img
+            <Image
               src="/images/logo.png"
               alt="ALFA Logo"
-              className="w-10 h-10 object-contain rounded-full border border-gold-primary/20 bg-surface/50 p-0.5 group-hover:border-gold-primary/50 transition-colors"
+              width={40}
+              height={40}
+              className="w-10 h-10 object-contain rounded-full border border-gold-primary/30 bg-surface/50 p-0.5 group-hover:border-gold-primary transition-colors"
             />
             <div className="flex flex-col">
-              <span 
-                className="font-display text-xl font-bold bg-clip-text text-transparent tracking-tight"
-                style={{ backgroundImage: "linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)" }}
+              <span
+                className="font-display text-xl md:text-2xl font-bold bg-clip-text text-transparent tracking-tight bg-gradient-gold"
               >
                 ALFA
               </span>
-              <span className="text-[9px] text-cream/60 uppercase tracking-wider">
+              <span className="text-[9px] text-cream/40 uppercase tracking-[0.2em]">
                 Astrology Light For All
               </span>
             </div>
@@ -47,7 +49,7 @@ export default function Footer() {
         </div>
 
         {/* Column 2: Quick Links */}
-        <div>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h4 className="font-display text-lg text-white font-semibold mb-4">Quick Links</h4>
           <ul className="space-y-2 text-sm text-muted-text">
             <li><Link href="/" className="hover:text-gold-primary transition">Home</Link></li>
@@ -59,7 +61,7 @@ export default function Footer() {
         </div>
 
         {/* Column 3: Services */}
-        <div>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h4 className="font-display text-lg text-white font-semibold mb-4">Services</h4>
           <ul className="space-y-2 text-sm text-muted-text">
             {SERVICES_DATA.map((service) => (
@@ -71,7 +73,7 @@ export default function Footer() {
         </div>
 
         {/* Column 4: Contact Info */}
-        <div>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h4 className="font-display text-lg text-white font-semibold mb-4">Contact Info</h4>
           <ul className="space-y-3 text-sm text-muted-text">
             <li className="flex items-start gap-2">

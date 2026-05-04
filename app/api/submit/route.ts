@@ -62,8 +62,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, message: 'Submission logged and email sent.' });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Submission processing error:', error);
-    return NextResponse.json({ success: false, error: error.message || 'Unknown internal error occurred.' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown internal error occurred.';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

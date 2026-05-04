@@ -37,8 +37,8 @@ export default function ContactPage() {
         alert(err.error || "Submission could not be completed at this moment.");
       }
     } catch (error) {
-       console.error("Contact submit error:", error);
-       alert("Error submitting. Please try emailing directly.");
+      console.error("Contact submit error:", error);
+      alert("Error submitting. Please try emailing directly.");
     }
   };
 
@@ -56,16 +56,16 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
+      <section className="py-16 md:py-24 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
-          
+
           {/* Left: Contact Info */}
           <div className="space-y-12">
             <div>
               <span className="text-gold-primary text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold font-body block opacity-80 mb-2">Connect Directly</span>
-              <h2 className="font-display text-4xl font-bold text-white tracking-tight">Contact Information</h2>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-white tracking-tight">Contact Information</h2>
             </div>
-            
+
             <div className="space-y-6">
               <div className="flex items-start gap-5 p-4 rounded-xl hover:bg-surface/40 border border-transparent hover:border-gold-primary/30 transition-all duration-300">
                 <div className="text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full"><MapPin size={24} /></div>
@@ -94,12 +94,12 @@ export default function ContactPage() {
 
             <div className="h-[350px] rounded-[2rem] overflow-hidden border border-gold-primary/20 shadow-[0_20px_40px_rgba(0,0,0,0.3)] mt-8 p-1 bg-surface/50 backdrop-blur-md relative group">
               <div className="w-full h-full rounded-2xl overflow-hidden relative">
-                <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14006.1834!2d77.1082!3d28.6441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d039f00000001%3A0x0!2sSubhash%20Nagar%20New%20Delhi!5e0!3m2!1sen!2sin!4v161234567890" 
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)', mixBlendMode: 'screen' }} 
-                  allowFullScreen={false} 
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14006.1834!2d77.1082!3d28.6441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d039f00000001%3A0x0!2sSubhash%20Nagar%20New%20Delhi!5e0!3m2!1sen!2sin!4v161234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)', mixBlendMode: 'screen' }}
+                  allowFullScreen={false}
                   loading="lazy"
                   className="group-hover:scale-[1.05] transition-transform duration-700 ease-out"
                 ></iframe>
@@ -110,13 +110,13 @@ export default function ContactPage() {
 
           {/* Right: Contact Form */}
           <div className="bg-surface/40 backdrop-blur-xl border border-gold-primary/20 p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] min-h-[500px] flex items-center relative overflow-hidden">
-            
+
             {/* Ambient form glow */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold-primary/5 rounded-full filter blur-[80px] pointer-events-none" />
 
             <AnimatePresence mode="wait">
               {!isSuccess ? (
-                <motion.div 
+                <motion.div
                   key="form"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -126,44 +126,44 @@ export default function ContactPage() {
                 >
                   <h3 className="font-display text-[2rem] font-bold text-white mb-8 tracking-tight">Send a Message</h3>
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    
+
                     <div className="relative group">
                       <label className="block text-[11px] text-gold-primary uppercase tracking-widest font-bold mb-2 ml-1">Name</label>
-                      <input 
-                        type="text" 
-                        {...register("name")} 
-                        className="w-full bg-surface/50 border border-border-accent rounded-2xl p-4 text-cream text-[15px] focus:border-gold-primary focus:bg-surface/80 focus:ring-1 focus:ring-gold-primary/50 outline-none transition-all duration-300 shadow-inner group-hover:border-gold-primary/50" 
-                        placeholder="Your Name" 
+                      <input
+                        type="text"
+                        {...register("name")}
+                        className="w-full bg-surface/50 border border-border-accent rounded-2xl p-4 text-cream text-[15px] focus:border-gold-primary focus:bg-surface/80 focus:ring-1 focus:ring-gold-primary/50 outline-none transition-all duration-300 shadow-inner group-hover:border-gold-primary/50"
+                        placeholder="Your Name"
                       />
                       {errors.name && <p className="absolute -bottom-5 left-2 text-red-400 text-[11px] tracking-wide font-medium">{errors.name.message}</p>}
                     </div>
 
                     <div className="relative group">
                       <label className="block text-[11px] text-gold-primary uppercase tracking-widest font-bold mb-2 ml-1 mt-6">Phone Number</label>
-                      <input 
-                        type="tel" 
-                        {...register("phone")} 
-                        className="w-full bg-surface/50 border border-border-accent rounded-2xl p-4 text-cream text-[15px] focus:border-gold-primary focus:bg-surface/80 focus:ring-1 focus:ring-gold-primary/50 outline-none transition-all duration-300 shadow-inner group-hover:border-gold-primary/50" 
-                        placeholder="099537 46052" 
+                      <input
+                        type="tel"
+                        {...register("phone")}
+                        className="w-full bg-surface/50 border border-border-accent rounded-2xl p-4 text-cream text-[15px] focus:border-gold-primary focus:bg-surface/80 focus:ring-1 focus:ring-gold-primary/50 outline-none transition-all duration-300 shadow-inner group-hover:border-gold-primary/50"
+                        placeholder="099537 46052"
                       />
                       {errors.phone && <p className="absolute -bottom-5 left-2 text-red-400 text-[11px] tracking-wide font-medium">{errors.phone.message}</p>}
                     </div>
 
                     <div className="relative group">
                       <label className="block text-[11px] text-gold-primary uppercase tracking-widest font-bold mb-2 ml-1 mt-6">Message</label>
-                      <textarea 
-                        rows={4} 
-                        {...register("msg")} 
-                        className="w-full bg-surface/50 border border-border-accent rounded-2xl p-4 text-cream text-[15px] focus:border-gold-primary focus:bg-surface/80 focus:ring-1 focus:ring-gold-primary/50 outline-none transition-all duration-300 shadow-inner resze-none group-hover:border-gold-primary/50" 
-                        placeholder="Tell us about your questions..." 
+                      <textarea
+                        rows={4}
+                        {...register("msg")}
+                        className="w-full bg-surface/50 border border-border-accent rounded-2xl p-4 text-cream text-[15px] focus:border-gold-primary focus:bg-surface/80 focus:ring-1 focus:ring-gold-primary/50 outline-none transition-all duration-300 shadow-inner resze-none group-hover:border-gold-primary/50"
+                        placeholder="Tell us about your questions..."
                       />
                       {errors.msg && <p className="absolute -bottom-5 left-2 text-red-400 text-[11px] tracking-wide font-medium">{errors.msg.message}</p>}
                     </div>
 
                     <div className="pt-6">
-                      <button 
-                        type="submit" 
-                        disabled={isSubmitting} 
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
                         className="magnetic relative overflow-hidden group w-full bg-[#0A0812] text-gold-primary font-bold py-4 rounded-full hover:scale-[1.02] transition-transform shadow-[0_10px_20px_rgba(201,168,76,0.2)] disabled:opacity-70 disabled:hover:scale-100 flex items-center justify-center text-[15px] border border-gold-primary/30"
                       >
                         <span className="relative z-10 flex items-center gap-2">
@@ -177,14 +177,14 @@ export default function ContactPage() {
                   </form>
                 </motion.div>
               ) : (
-                <motion.div 
+                <motion.div
                   key="success"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "spring", damping: 20, stiffness: 100 }}
                   className="w-full relative z-10 flex flex-col items-center justify-center text-center space-y-6 py-12"
                 >
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0, rotate: -45 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.2, type: "spring", damping: 15 }}
@@ -196,8 +196,8 @@ export default function ContactPage() {
                   <p className="font-body text-[16px] text-cream/70 leading-relaxed max-w-sm">
                     Thank you for reaching out. Manjul ji or the ALFA team will get back to you shortly.
                   </p>
-                  
-                  <button 
+
+                  <button
                     onClick={() => setIsSuccess(false)}
                     className="mt-8 px-8 py-3 rounded-full border border-border-accent text-cream/70 hover:text-white hover:border-white/40 transition-colors text-sm font-semibold uppercase tracking-widest"
                   >

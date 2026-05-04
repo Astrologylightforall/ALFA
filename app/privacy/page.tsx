@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Content Section */}
-      <section className="py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
+      <section className="py-12 md:py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
         <div className="max-w-4xl mx-auto font-body text-[15px] md:text-lg text-cream/80 leading-relaxed space-y-12">
           <div className="space-y-4">
             <p>

@@ -5,25 +5,49 @@ import gsap from "gsap";
 
 export default function ScrollProgress() {
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const velocityRef = useRef(0);
+  const lastYRef = useRef(0);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (!progressBarRef.current) return;
 
-    // Use GSAP ticker to sync with Lenis without triggering react state updates
-    const updateProgress = () => {
+    // Track scroll velocity
+    const trackVelocity = (time: number) => {
+      const currentY = window.scrollY;
+      const delta = Math.abs(currentY - lastYRef.current);
+      lastYRef.current = currentY;
+
+      // Smoothly decay velocity
+      velocityRef.current = delta;
+      if (velocityRef.current > 0) {
+        velocityRef.current *= 0.95; // decay
+      }
+
+      rafRef.current = requestAnimationFrame(trackVelocity);
+    };
+    rafRef.current = requestAnimationFrame(trackVelocity);
+
+    // Update progress bar and glow intensity
+    const update = () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (docHeight > 0) {
         const scrolled = window.scrollY;
         const progress = scrolled / docHeight;
-        gsap.set(progressBarRef.current, { scaleX: progress });
+        const velocity = Math.min(velocityRef.current / 100, 1); // Normalize 0-1
+
+        gsap.set(progressBarRef.current, {
+          scaleX: progress,
+          boxShadow: `0 0 ${5 + velocity * 15}px rgba(201, 168, 76, ${0.6 + velocity * 0.4})`,
+        });
       }
     };
 
-    // We add it to the GSAP ticker so it fires 60fps in sync with Lenis scroll
-    gsap.ticker.add(updateProgress);
+    gsap.ticker.add(update);
 
     return () => {
-      gsap.ticker.remove(updateProgress);
+      gsap.ticker.remove(update);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 

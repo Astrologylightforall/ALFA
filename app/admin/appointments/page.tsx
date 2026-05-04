@@ -162,7 +162,7 @@ export default function AppointmentsTracker() {
             <h3 className="font-display font-bold text-white text-2xl mb-1 flex items-center gap-2">
                <CalendarCheck className="text-gold-primary" /> Schedule Matrix
             </h3>
-            <p className="text-cream/50 text-xs mb-6">Assigning a temporal slot will automatically dispatch AES verification keys securely to the client's email inbox.</p>
+            <p className="text-cream/50 text-xs mb-6">Assigning a temporal slot will automatically dispatch AES verification keys securely to the client&apos;s email inbox.</p>
             
             <div className="space-y-4">
                <div className="bg-black/40 p-4 rounded-xl border border-white/5 mb-2">

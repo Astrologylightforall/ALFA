@@ -3,6 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import { sendClientNotification } from '@/lib/email';
 
+interface Appointment {
+  id: string;
+  [key: string]: unknown;
+}
+
 const DATA_DIR = path.join(process.cwd(), 'content', 'data');
 const APPT_FILE = path.join(DATA_DIR, 'appointments.json');
 
@@ -10,7 +15,7 @@ export async function GET(request: Request, props: { params: Promise<{ id: strin
   try {
     const params = await props.params;
     const data = JSON.parse(fs.readFileSync(APPT_FILE, 'utf8'));
-    const appointment = data.find((a: any) => a.id === params.id);
+    const appointment = data.find((a: Appointment) => a.id === params.id);
     
     if (!appointment) return NextResponse.json({ success: false, message: 'Not Found' }, { status: 404 });
     return NextResponse.json({ success: true, appointment });
@@ -25,7 +30,7 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
     const payload = await request.json();
     const currentData = JSON.parse(fs.readFileSync(APPT_FILE, 'utf8'));
     
-    const index = currentData.findIndex((a: any) => a.id === params.id);
+    const index = currentData.findIndex((a: Appointment) => a.id === params.id);
     if (index === -1) return NextResponse.json({ success: false, message: 'Not Found' }, { status: 404 });
 
     const existingAppt = currentData[index];

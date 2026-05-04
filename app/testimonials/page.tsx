@@ -5,6 +5,7 @@ import { TESTIMONIALS_DATA } from '@/lib/data';
 
 import { useState } from 'react';
 import { MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 
 export default function TestimonialsPage() {
   const [selectedSource, setSelectedSource] = useState('All');
@@ -24,21 +25,21 @@ export default function TestimonialsPage() {
             Client Testimonials
           </h1>
           <p className="font-body text-sm text-cream/70 max-w-xl mx-auto leading-relaxed">
-            Stories of faith, clarity, and guidance from those we've had the privilege to serve.
+            Stories of faith, clarity, and guidance from those we&apos;ve had the privilege to serve.
           </p>
         </div>
       </section>
 
-      <section className="py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
+      <section className="py-12 md:py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
         <div className="max-w-6xl mx-auto space-y-12">
-          
+
           {/* Source Filter */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             {sources.map((src) => {
               const isActive = src === selectedSource;
               return (
-                <button 
-                  key={src} 
+                <button
+                  key={src}
                   onClick={() => setSelectedSource(src)}
                   className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors duration-300 cursor-pointer ${isActive ? "bg-gold-primary text-primary-bg" : "bg-surface/40 text-cream border border-border-accent hover:border-gold-primary hover:text-gold-primary"}`}
                 >
@@ -50,39 +51,45 @@ export default function TestimonialsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredTestimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-surface/30 border border-border-accent p-6 rounded-2xl space-y-4 hover:border-gold-primary/30 transition shadow-lg flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="flex gap-1 text-gold-primary text-sm">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => <span key={i}>★</span>)}
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-surface/30 border border-border-accent p-6 rounded-2xl space-y-4 hover:border-gold-primary/30 transition shadow-lg flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="flex gap-1 text-gold-primary text-sm">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => <span key={i}>★</span>)}
+                  </div>
+                  <p className="font-display italic text-base text-cream/90 leading-relaxed">
+                    &quot;{testimonial.text}&quot;
+                  </p>
                 </div>
-                <p className="font-display italic text-base text-cream/90 leading-relaxed">
-                  "{testimonial.text}"
-                </p>
-              </div>
-              
-              <div className="flex justify-between items-center pt-4 border-t border-border-accent/50 text-xs text-muted-text mt-4">
-                <div>
-                  <span className="font-body font-bold text-gold-primary block">{testimonial.name}</span>
-                  <span>{testimonial.time}</span>
+
+                <div className="flex justify-between items-center pt-4 border-t border-border-accent/50 text-xs text-muted-text mt-4">
+                  <div>
+                    <span className="font-body font-bold text-gold-primary block">{testimonial.name}</span>
+                    <span>{testimonial.time}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {testimonial.source === 'Google Review' ? (
+                      <Image
+                        src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
+                        alt="Google"
+                        width={92}
+                        height={30}
+                        className="h-4 w-auto object-contain brightness-75 mix-blend-screen"
+                      />
+                    ) : (
+                      <span className="flex items-center gap-1 text-green-500 font-bold text-[11px]"><MessageCircle size={14} /> WhatsApp</span>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  {testimonial.source === 'Google Review' ? (
-                    <img src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-4 object-contain brightness-75 mix-blend-screen" />
-                  ) : (
-                    <span className="flex items-center gap-1 text-green-500 font-bold text-[11px]"><MessageCircle size={14} /> WhatsApp</span>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
     </>

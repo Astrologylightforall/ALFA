@@ -1,6 +1,19 @@
 import { ShieldCheck, Star, Phone, Globe, Heart, BookOpen, Briefcase, MapPin, MessageCircle, Mail } from 'lucide-react';
 
-export const SERVICES_DATA = [
+export interface Service {
+  slug: string;
+  title: string;
+  title_hindi: string;
+  description: string;
+  cta: string;
+  href: string;
+  icon: keyof typeof import('lucide-react');
+  category: string;
+  key_points: string[];
+  whatsapp_message: string;
+}
+
+export const SERVICES_DATA: Service[] = [
   {
     slug: "kundali-reading",
     title: "Kundali Reading",

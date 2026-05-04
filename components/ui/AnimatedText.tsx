@@ -15,10 +15,11 @@ interface RevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span" | "div";
 }
 
 // H2 Section Headings: Horizontal line sweep reveal
-export function SweepHeading({ children, className = "", delay = 0 }: RevealProps) {
+export function SweepHeading({ children, className = "", delay = 0, as: Tag = "h2" }: RevealProps) {
   const container = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const sweepRef = useRef<HTMLDivElement>(null);
@@ -49,32 +50,32 @@ export function SweepHeading({ children, className = "", delay = 0 }: RevealProp
       { scaleX: 0, transformOrigin: "left" },
       { scaleX: 1, duration: 0.4, ease: "power2.inOut" }
     )
-    // Reveal text behind it
-    .fromTo(
-      textRef.current,
-      { clipPath: "inset(0 100% 0 0)" },
-      { clipPath: "inset(0 0% 0 0)", duration: 0.01 }, // reveal instantly when sweep covers it
-      "-=0.2"
-    )
-    // Sweep away
-    .to(
-      sweepRef.current,
-      { scaleX: 0, transformOrigin: "right", duration: 0.4, ease: "power2.inOut" },
-      "-=0.1"
-    );
+      // Reveal text behind it
+      .fromTo(
+        textRef.current,
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 0.01 }, // reveal instantly when sweep covers it
+        "-=0.2"
+      )
+      // Sweep away
+      .to(
+        sweepRef.current,
+        { scaleX: 0, transformOrigin: "right", duration: 0.4, ease: "power2.inOut" },
+        "-=0.1"
+      );
 
   }, [delay, isMobile]);
 
   return (
     <div ref={container} className={`relative inline-block overflow-hidden ${className}`}>
-      <div 
-        ref={sweepRef} 
-        className="absolute inset-0 bg-gold-primary z-10 origin-left" 
+      <div
+        ref={sweepRef}
+        className="absolute inset-0 bg-gold-primary z-10 origin-left"
         style={{ transform: "scaleX(0)" }}
       />
-      <h2 ref={textRef} style={{ clipPath: "inset(0 100% 0 0)" }} className="relative z-0">
+      <Tag ref={textRef as React.RefObject<HTMLHeadingElement>} style={{ clipPath: "inset(0 100% 0 0)" }} className="relative z-0">
         {children}
-      </h2>
+      </Tag>
     </div>
   );
 }
@@ -89,7 +90,7 @@ export function LineReveal({ children, className = "", delay = 0 }: RevealProps)
   // Using pure GSAP + Splitting inside useGSAP
   useGSAP(() => {
     if (!container.current) return;
-    
+
     if (isMobile) {
       gsap.set(container.current, { opacity: 1, y: 0 });
       return;
@@ -152,7 +153,7 @@ export function ListReveal({ children, className = "", delay = 0 }: RevealProps)
 
   // We clone the children to attach refs, or just rely on DOM children since GSAP works on DOM nodes
   return (
-    <div className={className} ref={container as any}>
+    <div className={className} ref={container as unknown as React.RefObject<HTMLDivElement>}>
       {children}
     </div>
   );
@@ -183,7 +184,7 @@ export function CounterReveal({ value, suffix = "", prefix = "", decimal = false
         once: true,
       },
       onUpdate: () => {
-        let current = obj.val;
+        const current = obj.val;
         if (decimal) {
           setDisplayValue(current.toFixed(1));
         } else {

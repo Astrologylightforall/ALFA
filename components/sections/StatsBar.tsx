@@ -11,6 +11,7 @@ if (typeof window !== "undefined") {
 
 import { useGSAP } from "@gsap/react";
 import { useMediaQuery } from "usehooks-ts";
+import SectionTransition from "@/components/transitions/SectionTransition";
 
 // Utility to create particles
 const createParticles = (container: HTMLElement) => {
@@ -45,7 +46,7 @@ const createParticles = (container: HTMLElement) => {
 };
 
 export default function StatsBar() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   useGSAP(() => {
@@ -56,7 +57,7 @@ export default function StatsBar() {
       gsap.set(".stat-col", { opacity: 1, scale: 1 });
       gsap.set(".stat-divider", { scaleY: 1 });
       
-      const counters = document.querySelectorAll(".stat-number");
+      const counters = gsap.utils.toArray<HTMLElement>(".stat-number", sectionRef.current);
       counters.forEach((el) => {
         const targetVal = el.getAttribute("data-val") || "0";
         el.textContent = targetVal + (el.getAttribute("data-suffix") || "");
@@ -88,7 +89,7 @@ export default function StatsBar() {
     );
 
     // Counters
-    const counters = document.querySelectorAll(".stat-number");
+    const counters = gsap.utils.toArray<HTMLElement>(".stat-number", sectionRef.current);
     counters.forEach((el, i) => {
       const targetStr = el.getAttribute("data-val") || "0";
       const hasDecimal = targetStr.includes(".");
@@ -111,30 +112,44 @@ export default function StatsBar() {
           el.textContent = (hasDecimal ? obj.val.toFixed(1) : Math.floor(obj.val)) + suffix;
         },
         onComplete: () => {
-          // Burst explosion!
+          // Burst explosion with trails!
           const container = el.parentElement;
           if (container) createParticles(container);
         }
       }, 0.2 + (i * 0.2));
     });
 
+    // Add gold glow pulse during counting
+    gsap.to(".stat-number", {
+      color: "#E8C96A",
+      duration: 0.3,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+      }
+    });
+
   }, [isMobile]);
 
   return (
-    <section ref={sectionRef} className="bg-[#10191B]/80 backdrop-blur-xl border-y border-white/5 py-12 px-4 relative z-10 overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-wrap md:grid md:grid-cols-4 gap-y-10 justify-center relative">
+    <SectionTransition sectionId="stats" entranceFrom="scale" exitTo="fade" className="bg-[#10191B]/80 backdrop-blur-xl border-y border-white/5 py-8 md:py-12 px-4 relative z-10 overflow-hidden">
+      <div ref={sectionRef} className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-2 md:gap-y-10 justify-center relative">
         {STATS_DATA.map((stat, index) => {
           const isNumeric = stat.number.match(/\d+/);
           const rawNum = isNumeric ? stat.number.replace(/[^\d.]/g, '') : stat.number;
           const suffix = isNumeric ? stat.number.replace(/[0-9.]/g, '') : '';
 
           return (
-            <div key={stat.label} className="stat-col flex flex-col items-center justify-center text-center space-y-1 relative w-[50%] md:w-full">
+            <div key={stat.label} className="stat-col flex flex-col items-center justify-center text-center space-y-1 relative">
               
               {/* Number Container required for absolute particle positioning */}
               <div className="relative inline-block">
                 <span 
-                  className="stat-number font-display text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-gold-primary tracking-tight"
+                  className="stat-number font-display text-3xl md:text-5xl lg:text-[3.5rem] font-bold text-gold-primary tracking-tight"
                   data-val={rawNum}
                   data-suffix={suffix}
                 >
@@ -143,12 +158,12 @@ export default function StatsBar() {
               </div>
               
               {/* Label */}
-              <span className="font-body text-[13px] md:text-sm font-bold text-white uppercase tracking-wider pt-1 opacity-90">
+              <span className="font-body text-[11px] md:text-sm font-bold text-white uppercase tracking-wider pt-1 opacity-90">
                 {stat.label}
               </span>
               
               {/* Sublabel */}
-              <span className="font-body text-xs text-cream/50">
+              <span className="font-body text-[10px] md:text-xs text-cream/50">
                 {stat.sublabel}
               </span>
 
@@ -160,6 +175,6 @@ export default function StatsBar() {
           );
         })}
       </div>
-    </section>
+    </SectionTransition>
   );
 }

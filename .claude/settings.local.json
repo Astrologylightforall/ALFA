@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(find components:*)",
+      "Bash(cat /tmp/claude/*/*.output)",
+      "Bash(npm run:*)",
+      "Bash(npm ci:*)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(npm install:*)",
+      "Bash(PORT=3000 npm run dev)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist)",
+      "Bash(taskkill:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(xargs -r kill)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/about)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/services)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/admin)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/blog)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(for route:*)",
+      "Bash(do echo:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000$route\")",
+      "Bash(done)",
+      "Bash(pkill -f \"next start\")"
+    ]
+  }
+}

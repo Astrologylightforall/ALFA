@@ -21,7 +21,7 @@ export default function InstagramFeed() {
   const postIds = [
     "DVnwkUWD3tb",
     "DVB2IUVE0Wa",
-    "DU2u19_j3lp",
+    "DUtGpqaj2r2",
     "DUtGpqaj2r2",
     "DUoA_W8j5Vd",
     "DUa6DcwjxtV"
@@ -47,9 +47,9 @@ export default function InstagramFeed() {
   }, [isMobile]);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-primary-bg px-4 relative z-10 border-t border-border-accent">
+    <section ref={sectionRef} className="py-14 md:py-24 bg-primary-bg px-4 relative z-10 border-t border-border-accent">
       <div className="max-w-4xl mx-auto text-center space-y-4 mb-16">
-        <h2 className="font-display text-[2.5rem] md:text-5xl font-bold text-white tracking-tight leading-tight">
+        <h2 className="font-display text-[1.8rem] md:text-5xl font-bold text-white tracking-tight leading-tight">
           Follow @astrologylight4all
         </h2>
         <p className="font-body text-cream/70 text-sm md:text-base max-w-md mx-auto">
@@ -58,11 +58,11 @@ export default function InstagramFeed() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          {postIds.map((id) => (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 w-full">
+          {postIds.map((id, index) => (
             <div
-              key={id}
-              className="insta-card w-full aspect-[9/16] rounded-2xl overflow-hidden border border-border-accent/40 bg-surface/40 relative shadow-xl group transition-all duration-500 hover:scale-[1.02] hover:border-gold-primary/60 hover:shadow-[0_20px_40px_rgba(201,168,76,0.15)]"
+              key={`${id}-${index}`}
+              className="insta-card w-full aspect-[9/16] rounded-xl md:rounded-2xl overflow-hidden border border-border-accent/40 bg-surface/40 relative shadow-xl group transition-all duration-500 md:hover:scale-[1.02] md:hover:border-gold-primary/60 md:hover:shadow-[0_20px_40px_rgba(201,168,76,0.15)]"
             >
               {/* Note: Autoplay is not supported by Instagram iframe embeds due to browser & platform restrictions.
                   If you want reels to autoplay, they should be standard <video> tags with .mp4 files. */}

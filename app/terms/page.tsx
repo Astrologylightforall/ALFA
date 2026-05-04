@@ -17,7 +17,7 @@ export default function TermsPage() {
       </section>
 
       {/* Content Section */}
-      <section className="py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
+      <section className="py-12 md:py-20 bg-secondary-bg px-4 border-t border-border-accent relative z-10">
         <div className="max-w-4xl mx-auto font-body text-[15px] md:text-lg text-cream/80 leading-relaxed space-y-12">
           <div className="space-y-4">
             <p>
@@ -28,12 +28,12 @@ export default function TermsPage() {
           <div className="space-y-4 bg-surface/30 p-8 rounded-[2rem] border border-border-accent shadow-xl">
             <h2 className="font-display text-2xl md:text-3xl text-white font-bold">1. Nature of Astrology & Advice</h2>
             <p>
-              Vedic Astrology (Jyotish) is an ancient predictive and analytical system based on astronomical calculations and classical references. 
+              Vedic Astrology (Jyotish) is an ancient predictive and analytical system based on astronomical calculations and classical references.
             </p>
             <ul className="list-disc list-inside space-y-2 pl-4 text-cream/90">
               <li>Our services are intended to provide actionable **spiritual guidance and support** using ancient wisdom methods.</li>
               <li>Calculations and interpretations may vary based on accurate birth detail logs provided by the user.</li>
-              <li>Astrological advice should **never** be considered as a definitive replacement for professional advice (including but not limited to medical diagnostics, legal frameworks, or certified financial planning).</li>
+              <li>Astrological advice should {'\u2014'} never {'\u2014'} be considered as a definitive replacement for professional advice (including but not limited to medical diagnostics, legal frameworks, or certified financial planning).</li>
             </ul>
           </div>
 
@@ -47,7 +47,7 @@ export default function TermsPage() {
           <div className="space-y-4">
             <h2 className="font-display text-2xl md:text-3xl text-white font-bold">3. Booking, Payment & Cancellation</h2>
             <p>
-              Consultations must be scheduled in advance through our official channels (WhatsApp, phone, or forms). 
+              Consultations must be scheduled in advance through our official channels (WhatsApp, phone, or forms).
             </p>
             <ul className="list-disc list-inside space-y-2 pl-4 text-cream/90">
               <li>Consultations are confirmed only after standard booking fee is approved.</li>

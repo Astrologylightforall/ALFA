@@ -72,49 +72,35 @@ export default function ContactSnippet() {
 
   }, [isMobile]);
 
-  // Hover animations for the contact items
-  const handleItemHover = (e: MouseEvent<HTMLDivElement>) => {
-    const icon = e.currentTarget.querySelector(".contact-icon");
-    if (icon) {
-      // Jiggle or bounce based on data-type
-      const type = icon.getAttribute("data-type");
-      if (type === "phone") {
-        gsap.fromTo(icon, { rotation: -15 }, { rotation: 15, yoyo: true, repeat: 5, duration: 0.08, ease: "none" });
-      } else if (type === "pin") {
-        gsap.fromTo(icon, { y: 0 }, { y: -8, yoyo: true, repeat: 1, duration: 0.2, ease: "power2.out" });
-      } else {
-        gsap.fromTo(icon, { scale: 1 }, { scale: 1.2, yoyo: true, repeat: 1, duration: 0.15, ease: "back.out(2)" });
-      }
-    }
-  };
+  // Hover animations for the contact items removed
+  const handleItemHover = () => {};
 
   return (
-    <section ref={sectionRef} className="py-24 bg-secondary-bg px-4 relative z-10 border-t border-border-accent overflow-hidden">
-      
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-primary/5 rounded-full filter blur-[150px] pointer-events-none -z-10 translate-x-1/3 -translate-y-1/3"></div>
+    <section ref={sectionRef} className="py-12 md:py-24 bg-secondary-bg px-4 md:px-4 relative z-10 border-t border-border-accent overflow-hidden">
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
-        
+      {/* Background Decor - desktop only */}
+      {!isMobile && <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-primary/5 rounded-full filter blur-[150px] pointer-events-none -z-10 translate-x-1/3 -translate-y-1/3"></div>}
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
+
         {/* Left: Info & Details */}
         <div className="contact-left space-y-8">
           <div>
             <span className="text-gold-primary text-[11px] md:text-xs uppercase tracking-[0.2em] font-bold font-body block opacity-80 mb-2">
               Visit Us & Connect
             </span>
-            <h2 className="font-display text-[2.5rem] md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+            <h2 className="font-display text-[1.6rem] sm:text-[2rem] md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
               Consult Manjul Malhotra In Person or Online
             </h2>
           </div>
-          
+
           <div className="space-y-6 pt-4">
-            
+
             {/* Location */}
-            <div 
-              className="flex items-start gap-5 p-4 rounded-xl hover:bg-surface/40 border border-transparent hover:border-gold-primary/30 transition-all duration-300 cursor-pointer group"
-              onMouseEnter={handleItemHover}
+            <div
+              className="flex items-start gap-5 p-4 rounded-xl border border-transparent"
             >
-              <div className="contact-icon text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full group-hover:bg-gold-primary group-hover:text-primary-bg transition-colors" data-type="pin">
+              <div className="contact-icon text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full" data-type="pin">
                 <MapPin size={24} />
               </div>
               <div>
@@ -124,11 +110,10 @@ export default function ContactSnippet() {
             </div>
 
             {/* Hours */}
-            <div 
-               className="flex items-start gap-5 p-4 rounded-xl hover:bg-surface/40 border border-transparent hover:border-gold-primary/30 transition-all duration-300 cursor-pointer group"
-               onMouseEnter={handleItemHover}
+            <div
+              className="flex items-start gap-5 p-4 rounded-xl border border-transparent"
             >
-              <div className="contact-icon text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full group-hover:bg-gold-primary group-hover:text-primary-bg transition-colors" data-type="clock">
+              <div className="contact-icon text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full" data-type="clock">
                 <Clock size={24} />
               </div>
               <div>
@@ -138,11 +123,10 @@ export default function ContactSnippet() {
             </div>
 
             {/* Phone */}
-            <div 
-              className="flex items-start gap-5 p-4 rounded-xl hover:bg-surface/40 border border-transparent hover:border-gold-primary/30 transition-all duration-300 cursor-pointer group"
-              onMouseEnter={handleItemHover}
+            <div
+              className="flex items-start gap-5 p-4 rounded-xl border border-transparent"
             >
-              <div className="contact-icon text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full group-hover:bg-gold-primary group-hover:text-primary-bg transition-colors" data-type="phone">
+              <div className="contact-icon text-gold-primary mt-1 p-3 bg-gold-primary/10 rounded-full" data-type="phone">
                 <Phone size={24} />
               </div>
               <div>
@@ -156,17 +140,17 @@ export default function ContactSnippet() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-6">
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="magnetic w-full sm:w-auto text-primary-bg font-bold px-10 py-4 rounded-full hover:scale-[1.05] transition-transform shadow-[0_10px_30px_rgba(201,168,76,0.2)] flex items-center justify-center gap-2 relative overflow-hidden group"
               style={{ backgroundImage: "linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)" }}
             >
               <span className="relative z-10">Book Consultation</span>
               <span className="absolute top-0 -left-[100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[-20deg] animate-shimmer" />
             </Link>
-            <a 
-              href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT_INFO.address)}`} 
-              target="_blank" 
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(CONTACT_INFO.address)}`}
+              target="_blank"
               rel="noopener noreferrer"
               className="magnetic w-full sm:w-auto border-[2px] border-gold-primary/50 text-gold-primary font-bold px-10 py-4 rounded-full hover:bg-gold-primary/10 hover:border-gold-primary transition flex items-center justify-center gap-2"
             >
@@ -176,20 +160,20 @@ export default function ContactSnippet() {
         </div>
 
         {/* Right: Map Embed */}
-        <div className="contact-right relative h-[450px] md:h-[500px] rounded-3xl overflow-hidden border border-gold-primary/20 shadow-2xl p-1 bg-surface/50 backdrop-blur-md">
+        <div className="contact-right relative h-[300px] md:h-[500px] rounded-2xl md:rounded-3xl overflow-hidden border border-gold-primary/20 shadow-2xl p-1 bg-surface/50 backdrop-blur-md">
           {/* iframe wrapper for map reveal */}
           <div className="contact-map w-full h-full rounded-2xl overflow-hidden relative group">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14006.1834!2d77.1082!3d28.6441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d039f00000001%3A0x0!2sSubhash%20Nagar%20New%20Delhi!5e0!3m2!1sen!2sin!4v161234567890" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(90%)' }} 
-              allowFullScreen={false} 
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14006.1834!2d77.1082!3d28.6441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d039f00000001%3A0x0!2sSubhash%20Nagar%20New%20Delhi!5e0!3m2!1sen!2sin!4v161234567890"
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(90%)' }}
+              allowFullScreen={false}
               loading="lazy"
               title="ALFA Location Map"
               className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
             ></iframe>
-            
+
             {/* Ambient Map overlay */}
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-primary-bg/80 via-transparent to-transparent opacity-60 mix-blend-multiply"></div>
             <div className="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none"></div>

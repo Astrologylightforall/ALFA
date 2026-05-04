@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ZODIAC_SIGNS = [
@@ -20,38 +20,36 @@ const ZODIAC_SIGNS = [
 
 export default function DailyHoroscope() {
   const [selectedSign, setSelectedSign] = useState<typeof ZODIAC_SIGNS[0] | null>(null);
-  const [dynamicScores, setDynamicScores] = useState({ love: 75, career: 75, health: 75, advice: "" });
 
-  useEffect(() => {
-    if (selectedSign) {
-      const today = new Date().toDateString();
-      const seed = selectedSign.sign + today;
-      let hash = 0;
-      for (let i = 0; i < seed.length; i++) {
-        hash = (hash << 5) - hash + seed.charCodeAt(i);
-        hash |= 0;
-      }
-      
-      const score = (val: number) => 65 + (Math.abs(hash * val) % 30); // 65 to 95
-      
-      const advices = [
-        "Take bold steps in your projects today. Your focus is your absolute superpower.",
-        "Financial stability is on the horizon. Trust your patience and the natural cosmic process.",
-        "Your leadership skills are in heavy demand today. Step into the spotlight with absolute grace.",
-        "An adventurous spark guides you today. Explore new perspectives and stay fully open to changes.",
-        "Hard work yields tangible results today. Stay grounded, disciplined, and ignore minor distractions.",
-        "A communication breakthrough awaits you. Share your ideas clearly with teammates or friends.",
-        "Harmony is being restored in your personal relationships. Focus on beautiful, highly creative ideas."
-      ];
-
-      setDynamicScores({
-        love: score(1),
-        career: score(2),
-        health: score(3),
-        advice: advices[Math.abs(hash) % advices.length]
-      });
+  // Compute scores dynamically based on selected sign and today's date (deterministic)
+  const today = new Date().toDateString();
+  const dynamicScores = selectedSign ? (() => {
+    const seed = selectedSign.sign + today;
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash << 5) - hash + seed.charCodeAt(i);
+      hash |= 0;
     }
-  }, [selectedSign]);
+
+    const score = (val: number) => 65 + (Math.abs(hash * val) % 30); // 65 to 95
+
+    const advices = [
+      "Take bold steps in your projects today. Your focus is your absolute superpower.",
+      "Financial stability is on the horizon. Trust your patience and the natural cosmic process.",
+      "Your leadership skills are in heavy demand today. Step into the spotlight with absolute grace.",
+      "An adventurous spark guides you today. Explore new perspectives and stay fully open to changes.",
+      "Hard work yields tangible results today. Stay grounded, disciplined, and ignore minor distractions.",
+      "A communication breakthrough awaits you. Share your ideas clearly with teammates or friends.",
+      "Harmony is being restored in your personal relationships. Focus on beautiful, highly creative ideas."
+    ];
+
+    return {
+      love: score(1),
+      career: score(2),
+      health: score(3),
+      advice: advices[Math.abs(hash) % advices.length]
+    };
+  })() : { love: 75, career: 75, health: 75, advice: "" };
 
   return (
     <section className="py-24 bg-primary-bg px-4 relative z-10 border-t border-border-accent">
@@ -70,7 +68,6 @@ export default function DailyHoroscope() {
           {ZODIAC_SIGNS.map((item) => (
             <motion.button
               key={item.sign}
-              whileHover={{ scale: 1.05, translateY: -4 }}
               onClick={() => setSelectedSign(item)}
               className={`flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 ${
                 selectedSign?.sign === item.sign
@@ -152,12 +149,12 @@ export default function DailyHoroscope() {
                         <span className="text-white/80">{stat.label}</span>
                         <span className="text-gold-primary">{stat.value}%</span>
                       </div>
-                      <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="w-full h-2 bg-secondary-bg rounded-full overflow-hidden border border-white/5">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${stat.value}%` }}
                           transition={{ duration: 0.8, ease: "easeOut" }}
-                          className="h-full bg-gradient-to-r from-gold-primary via-saffron to-gold-light"
+                          className="h-full bg-gradient-gold"
                         />
                       </div>
                     </div>
